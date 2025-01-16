@@ -30,6 +30,23 @@ Show the summary page of all reports.
 sub index : Path : Args(0) {
     my ( $self, $c ) = @_;
 
+     if (my $param_value = $c->request->params->{name}) {
+         my @problems = $c->model('DB::Problem')->all;
+
+    # Example: Store them in the stash for template rendering
+    $c->stash(
+        problems => [ map {
+            {
+                category          => $_->category,
+               
+            }
+        } @problems ],
+        template => 'reports/name_based_report.html',
+    );
+        # $c->stash(template => 'reports/name_based_report.html');
+        return;
+    }
+
     if ( $c->cobrand->call_hook('report_page_data') ) {
         return 1;
     }

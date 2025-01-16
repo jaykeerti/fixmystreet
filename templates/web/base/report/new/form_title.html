@@ -1,6 +1,133 @@
 <label id="title-label" for="form_title">[% form_title %]</label>
 <p class="form-hint" id="title-hint">[% contact_title_hint OR form_title_placeholder %]</p>
 [% IF field_errors.title %]
-    <p class='form-error'>[% field_errors.title %]</p>
+<p class='form-error'>[% field_errors.title %]</p>
 [% END %]
-<input class="form-control" type="text" value="[% report.title | html %]" name="title" id="form_title" aria-describedby="title-hint"[% field_required %] autocomplete="off">
+<!-- <input class="form-control" type="text" value="[% report.title | html %]" name="title" id="form_title"
+    aria-describedby="title-hint" [% field_required %] autocomplete="off"> -->
+<!-- <label for="cars">Choose a car:</label> -->
+
+<select name="title" id="form_title" [% field_required %]>
+    <option value="" disabled selected>Select an issue</option>
+</select>
+
+<script>
+    const data = {
+        "Buses/Bus Stops": [
+            "Bus Stop Pole/Timetable Damaged",
+            "Graffiti",
+            "Broken plastic cover",
+            "Bent pole",
+            "Timetable missing",
+            "Timetable obscured"
+        ],
+        "Car parking": [
+            "Benz",
+           "lambo" 
+        ],
+        "Cycleway": [
+            "Needs Repair / Pothole",
+            "Needs resurfacing",
+            "Small Pothole (tennis ball size)",
+            "Med Pothole (saucer sized)",
+            "Large Pothole (dinner plate sized)",
+            "Tactile Cycleway Paving Damaged/Cracked"
+        ],
+        "Drainage & Flooding": [
+            "Pavement Flooded",
+            "Blocked Drain/Gully",
+            "Blocked with litter",
+            "Blocked with foliage",
+            "Odorous"
+        ],
+        "Footpaths/Pavements": [
+            "Needs Repairs/Potholes",
+            "Tactile Hazard Warning Paving Damaged/Cracked",
+            "Tactile Blister Paving Damaged/Cracked",
+            "Small Pothole (tennis ball sized)",
+            "Med Pothole (saucer sized)",
+            "Large Pothole (dinner plate sized)",
+            "Needs resurfacing"
+        ],
+        "Grass": [
+            "Obstructing Road/Footpath"
+        ],
+        "Hedges": [
+            "Obstructing Road/Footpath"
+        ],
+        "Kerb": [
+            "Damaged",
+            "Cracked/chipped",
+            "Falling away",
+            "Dropping",
+            "Loose",
+            "Missing"
+        ],
+        "Lines": [
+            "Bus Stop Lines Worn",
+            "School Zigzag Missing",
+            "School Zigzag Refresh",
+            "White Road Markings Missing",
+            "White Road Markings Refresh",
+            "Yellow Box Marking Worn",
+            "Yellow Lines Missing"
+        ],
+        "Potholes": [
+            "Potholes on the Road/Pavement",
+            "Small Pothole (tennis ball sized)",
+            "Med Pothole (saucer sized)",
+            "Large Pothole (dinner plate sized)",
+            "Multiple Potholes",
+            "Small Pothole Cluster (tennis ball sized)",
+            "Med Pothole Cluster (saucer sized)",
+            "Large Pothole Cluster (dinner plate sized)"
+        ],
+        "Road/Carriageway": [
+            "Resurfacing Request"
+        ],
+        "Shrubs": [
+            "Obstructing Road/Footpath"
+        ],
+        "Street Lighting": [
+            "Graffitied",
+            "Offensive",
+            "Non-offensive",
+            "Not working"
+        ],
+        "Trees": [
+            "Fallen/Hanging on or over road",
+            "Fallen/Hanging not on road",
+            "Obstructing Road/Footpath"
+        ],
+        "Weeds": [
+            "Obstructing Road/Footpath"
+        ],
+        "Winter Maintenance": [
+            "New Salt Bin Request",
+            "Salt Bin Empty",
+            "Completely empty",
+            "Almost empty but requires refill soon"
+        ]
+    };
+
+    function createDropdown(radioValue) {
+        const select = document.getElementById("form_title");
+        if (data[radioValue]) {
+            data[radioValue].forEach(optionText => {
+                const option = document.createElement("option");
+                option.value = optionText;
+                option.textContent = optionText;
+                select.appendChild(option);
+            });
+        }
+
+        const dropdown = document.getElementById("form_title");
+        dropdown.addEventListener('change', (event) => {
+            const selectedIssue = event.target.value;
+            const textarea = document.getElementById("form_detail");
+
+            // Fill the textarea with the selected issue text
+            textarea.value = selectedIssue;
+        });
+    }
+</script>

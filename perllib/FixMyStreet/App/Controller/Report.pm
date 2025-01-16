@@ -820,7 +820,7 @@ sub fetch_permissions : Private {
 
 sub stash_category_groups : Private {
     my ( $self, $c, $contacts, $opts ) = @_;
-
+    
     my %category_groups = ();
     for my $category (@$contacts) {
         my $group = $category->{group} // $category->groups;
@@ -836,9 +836,11 @@ sub stash_category_groups : Private {
 
     # New reporting, top level mixes groups and categories not in a group
     # (or where the category is the only entry in the group)
+    
     if ($opts->{mix_in}) {
         my $no_group = delete $category_groups{""};
         my @list = map { [ $_->category_display, $_ ]  } @$no_group;
+        
         foreach (keys %category_groups) {
             (my $id = $_) =~ s/[^a-zA-Z]+//g;
             if (@{$category_groups{$_}} == 1) {
@@ -863,9 +865,8 @@ sub stash_category_groups : Private {
             $a->[0] cmp $b->[0];
         } @list;
         @list = map { $_->[1] } @list;
-
         $c->cobrand->call_hook(munge_mixed_category_groups => \@list);
-        $c->stash->{category_groups} = \@list;
+        $c->stash->{category_groups} = \@list;        
         return;
     }
 

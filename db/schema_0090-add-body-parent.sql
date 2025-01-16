@@ -1,0 +1,2 @@
+--BEGIN;
+--ALTER TABLE body ADD cobrand TEXT;
